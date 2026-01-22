@@ -47,7 +47,10 @@ if(!user){
 
     res.status(404);
 
-}
+}else{
+
 res.status(200);
+}
+
 
 }
