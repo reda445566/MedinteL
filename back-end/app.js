@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const app = express()
 
 app.use(bodyParser.json());
-const port = 3000;
+const port = 3001;
 
 const url = "mongodb+srv://mag:<1234@cluster0.r1vfnch.mongodb.net/?appName=Cluster0"
 
