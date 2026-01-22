@@ -11,5 +11,3 @@ const userschema = schema({
 })
 
 module.exports = mongoose.model("users", userschema)
-
-

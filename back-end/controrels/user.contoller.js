@@ -38,3 +38,16 @@ res.status(200);
     console.log(err)
 }
 }
+
+
+exports.delete =  async function (req,res){
+
+let user = user.delete
+if(!user){
+
+    res.status(404);
+
+}
+res.status(200);
+
+}
