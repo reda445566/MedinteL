@@ -5,3 +5,11 @@ router.post("/api/register/users" , usercontroller.register )//call the controll
 router.post("/api/login/users" ,usercontroller.login )//call the controller
 
 
+userSchema.methods.comparePassword = async function (password) {
+return await bcrypt.compare(password, this.password)
+}
+
+model.export = router;
+
+
+

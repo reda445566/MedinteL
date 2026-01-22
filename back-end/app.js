@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 
 const express = require(express);
 const bodyparser = require("bodyParser")
-
+const router = require("./rourters/user.router")
 const mongoose = require("mongoose");
 const app = express()
 
@@ -41,5 +41,6 @@ app.use((req,res)=>{
 res.status(404);
 })
 app.listen(port);
+
 
 

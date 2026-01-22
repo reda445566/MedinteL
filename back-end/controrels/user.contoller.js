@@ -19,6 +19,18 @@ res.status(201);
 
 exports.login=  async function (req,res) {
 try{
+let user = await usermodel.findone(req.body.email)
+if(!user|| await user.comparepassword(req.body.password)){
+
+
+    res.status(400);
+
+
+
+}else{
+res.status(200);
+
+}
 
 
 }catch(err){

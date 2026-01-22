@@ -1,1 +1,1 @@
-cout<<"hello,world
+cout<<"hello,world;
