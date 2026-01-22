@@ -1,46 +1,95 @@
-const bodyParser = require("body-parser");
-const { default: mongoose } = require("mongoose");
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const userRouter = require('./routes/user.router');
 
-const express = require(express);
-const bodyparser = require("bodyParser")
-const router = require("./rourters/user.router")
-const mongoose = require("mongoose");
-const app = express()
+// Load env vars
+dotenv.config();
 
-app.use(bodyParser.json());
-const port = 3001;
+const app = express();
 
-const url = "mongodb+srv://mag:<1234@cluster0.r1vfnch.mongodb.net/?appName=Cluster0"
+// Security Middlewares
+app.use(helmet());
+app.use(cors());
+app.use(express.json()); // Replaces body-parser
+app.use(mongoSanitize());
+app.use(xss());
+app.use(hpp());
 
-// connect with datebase 
+// Rate Limiting
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 mins
+    max: 100
+});
+app.use(limiter);
 
-const connectDB = async ()=>{
-try{
-await mongoose.connect(url)
-    console.log("DB connected")
+// Routes
+app.use('/api/users', userRouter);
 
+// Global Error Handler
+// 404 Handler
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: 'Route not found' });
+});
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+    let error = { ...err };
+    error.message = err.message;
 
-}catch(err){
-    console.log(error,"err", )
-    res.json({ message: "server error" })
+    // Log error for debugging (excluding validation/client errors to keep logs clean)
+    if (err.name !== 'ValidationError' && err.code !== 11000 && err.name !== 'CastError') {
+        console.error(err.stack);
+    }
 
-}
+    // Mongoose Bad ObjectId
+    if (err.name === 'CastError') {
+        const message = `Resource not found`;
+        error = { message, statusCode: 404 };
+    }
 
-}
-connectDB();
+    // Mongoose Duplicate Key
+    if (err.code === 11000) {
+        const message = 'Duplicate field value entered';
+        error = { message, statusCode: 400 };
+    }
 
-// router handel 
+    // Mongoose Validation Error
+    if (err.name === 'ValidationError') {
+        const message = Object.values(err.errors).map(val => val.message).join(', ');
+        error = { message, statusCode: 400 };
+    }
 
-app.use('/', userRouter)
+    res.status(error.statusCode || 500).json({
+        success: false,
+        error: error.message || 'Server Error'
+    });
+});
 
-// error routers handling
+// Database Connection
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("MongoDB connected");
+    } catch (err) {
+        console.error("MongoDB connection error:", err);
+        process.exit(1);
+    }
+};
 
-app.use((req,res)=>{
+const PORT = process.env.PORT || 3001;
 
-res.status(404);
-})
-app.listen(port);
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Security middlewares enabled.`);
+    });
+});
 
-
-
+module.exports = app;
