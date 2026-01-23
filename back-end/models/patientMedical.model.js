@@ -16,6 +16,26 @@ const patientMedicalSchema = new mongoose.Schema({
         enum: ['male', 'female'],
         required: [true, 'Gender is required']
     },
+
+    diseaseType: {
+    type: String,
+    enum: ['heart', 'diabetes', 'pressure'],
+    required: true
+},
+durationInYears: {
+    type: Number,
+    required: true
+},
+
+followUpWithDoctor: {
+    type: Boolean,
+    default: false
+},
+symptoms: [
+    {
+    type: String
+    }
+],
     weight: {
         type: Number,
         required: [true, 'Weight is required']
@@ -31,15 +51,7 @@ const patientMedicalSchema = new mongoose.Schema({
     otherNotes: {
         type: String
     },
-    diseases: [{
-        diseaseName: {
-            type: String,
-            required: [true, 'Disease name is required']
-        },
-        description: {
-            type: String
-        }
-    }],
+
     createdAt: {
         type: Date,
         default: Date.now
