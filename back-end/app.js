@@ -30,7 +30,11 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
+// Routes
 app.use('/api/users', userRouter);
+app.use('/api/hospitals', require('./routes/hospital.routes'));
+app.use('/api/patients', require('./routes/patientMedical.routes'));
+app.use('/api/chatbot', require('./routes/chatbot.routes'));
 
 // Global Error Handler
 // 404 Handler
