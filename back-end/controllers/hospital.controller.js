@@ -68,3 +68,4 @@ const sendTokenResponse = (hospital, statusCode, res) => {
         }
     });
 };
+
