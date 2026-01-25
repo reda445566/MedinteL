@@ -1,0 +1,52 @@
+erDiagram
+    User {
+        ObjectId _id PK
+        String name
+        Number age
+        String email
+        String password
+        Date createdAt
+    }
+
+    PatientMedical {
+        ObjectId _id PK
+        ObjectId user FK "Ref: User"
+        Number age
+        String gender "enum: male, female"
+        Number weight
+        Number height
+        String[] medications
+        String diseaseType "enum: heart, diabetes, pressure"
+        Number durationInYears
+        Boolean followUpWithDoctor
+        String[] symptoms
+        String otherNotes
+        Date createdAt
+    }
+
+    Hospital {
+        ObjectId _id PK
+        String hospitalName
+        String email
+        String password
+        String phoneNumber
+        String address
+        String city
+        String googleMapLink
+        String[] departments
+        String emergencyNumber
+        String licenseNumber
+        String role "default: hospital"
+        Date createdAt
+    }
+
+    ChatSession {
+        ObjectId _id PK
+        ObjectId user FK "Ref: User"
+        String question
+        String answer
+        Date timestamp
+    }
+
+    User ||--|| PatientMedical : "has one (Profile)"
+    User ||--o{ ChatSession : "initiates"

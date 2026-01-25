@@ -12,7 +12,9 @@ exports.analyzeUserQuery = async (question, medicalProfile) => {
     - Gender: ${medicalProfile.gender}
     - Weight: ${medicalProfile.weight}kg, Height: ${medicalProfile.height}cm
     - Current Medications: ${medicalProfile.medications.join(", ") || "None"}
-    - Diagnosed Conditions: ${medicalProfile.diseases.map(d => d.diseaseName + " (" + (d.description || "") + ")").join(", ") || "None"}
+    - Diagnosed Condition: ${medicalProfile.diseaseType ? (medicalProfile.diseaseType + " (Duration: " + medicalProfile.durationInYears + " years)") : "None"}
+    - Symptoms: ${medicalProfile.symptoms ? medicalProfile.symptoms.join(", ") : "None"}
+    - Follow up with doctor: ${medicalProfile.followUpWithDoctor ? "Yes" : "No"}
     - Other Notes: ${medicalProfile.otherNotes || "None"}
     `;
 
