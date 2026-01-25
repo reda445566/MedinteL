@@ -12,7 +12,10 @@ exports.createOrUpdateProfile = async (req, res, next) => {
             height,
             medications,
             otherNotes,
-            diseases
+            diseaseType,
+            durationInYears,
+            followUpWithDoctor,
+            symptoms
         } = req.body;
 
         // Build medical profile object
@@ -24,7 +27,10 @@ exports.createOrUpdateProfile = async (req, res, next) => {
             height,
             medications,
             otherNotes,
-            diseases
+            diseaseType,
+            durationInYears,
+            followUpWithDoctor,
+            symptoms
         };
 
         // Check if profile exists

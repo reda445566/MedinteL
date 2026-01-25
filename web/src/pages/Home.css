@@ -1,0 +1,566 @@
+/* Home.css */
+
+/* Hero Section */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 3rem 0;
+    /* Reduced padding */
+    overflow: hidden;
+    background: transparent;
+}
+
+/* Ensure grid behaves correctly */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    /* Visual side slightly smaller */
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Animated Background */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+    opacity: 0.15;
+    filter: blur(80px);
+    z-index: -1;
+    animation: blobFloat 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+    opacity: 0.1;
+    filter: blur(80px);
+    z-index: -1;
+    animation: blobFloat 12s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes blobFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+}
+
+.hero-tag {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.hero-title {
+    font-size: 3rem;
+    /* Reduced from 4.5rem */
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Typewriter Effect */
+.typewriter {
+    display: inline-block;
+    overflow: hidden;
+    /* Ensures the content is not revealed until the animation */
+    white-space: nowrap;
+    /* Keeps the content on a single line */
+    border-right: .10em solid var(--primary);
+    /* The typwriter cursor */
+    animation:
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+    max-width: 0;
+    animation-fill-mode: forwards;
+    /* Keep final state */
+}
+
+@keyframes typing {
+    from {
+        max-width: 0
+    }
+
+    to {
+        max-width: 100%
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--primary);
+    }
+}
+
+.hero-desc {
+    font-size: 1.25rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    max-width: 550px;
+    line-height: 1.7;
+}
+
+/* Hero Visual Cards */
+.hero-visual {
+    position: relative;
+    /* Height handled by flex in desktop query above, adjusted here */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.visual-card-main {
+    width: 280px;
+    /* Smaller width */
+    /* Use theme variables for consistent look in both modes */
+    background: var(--surface);
+    /* Or specifically rgba(255, 255, 255, 0.8) for light and rgba(30, 41, 59, 0.8) for dark via variable if needed, 
+       but var(--surface) is safest. Let's add slight transparency manually if desired, but solid is cleaner.
+       Let's stick to a glass-like feel using RGB vars if we had them, otherwise fallback to surface.
+    */
+    background: rgba(255, 255, 255, 0.9);
+    /* Default Light */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    /* Increased padding */
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    transform-style: preserve-3d;
+    animation: floatCard 6s ease-in-out infinite;
+    margin-top: -2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* Better spacing between inner elements */
+}
+
+[data-theme='dark'] .visual-card-main {
+    background: rgba(30, 41, 59, 0.85);
+    /* Dark Slate with transparency */
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+    color: var(--text);
+}
+
+@keyframes floatCard {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateX(2deg) rotateY(-2deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotateX(0deg) rotateY(0deg);
+    }
+}
+
+.floating-pill {
+    position: absolute;
+    background: var(--surface);
+    padding: 0.6rem 1rem;
+    /* Smaller pill */
+    border-radius: 50px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    z-index: 3;
+    animation: floatPill 5s ease-in-out infinite;
+    border: 1px solid var(--border);
+}
+
+/* .pill-1 removed as it is now inside the card */
+.pill-2 {
+    bottom: 0%;
+    left: -10px;
+    animation-delay: 1.5s;
+}
+
+@keyframes floatPill {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Sections */
+.section {
+    padding: 6rem 0;
+}
+
+.section-bg {
+    background: var(--surface-2);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-tag {
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+/* Feature Grid */
+.feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: var(--surface-2);
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+.feature-card:hover .feature-icon {
+    background: var(--primary);
+    color: white;
+    transform: rotate(10deg);
+}
+
+.feature-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+/* Comparison Grid */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.comparison-col h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.comparison-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+}
+
+.comparison-item:hover {
+    transform: translateX(5px);
+}
+
+
+/* CTA */
+.cta-box {
+    background: linear-gradient(120deg, var(--primary), var(--primary-dark));
+    border-radius: 30px;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-box h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.btn-white {
+    background: white;
+    color: var(--primary);
+    padding: 1rem 3rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    transition: transform 0.2s;
+}
+
+.btn-white:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Tablet/Mobile Optimization */
+@media (max-width: 900px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .hero {
+        padding: 3rem 1rem 2rem;
+        min-height: auto;
+    }
+
+    .hero-tag {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.7rem;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+        margin: 0 auto 2rem;
+        font-size: 0.95rem;
+        max-width: 90%;
+        line-height: 1.5;
+    }
+
+    /* Center buttons */
+    .hero div[style*="display: flex"] {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* Scale down visual card */
+    .hero-visual {
+        margin-top: 2rem;
+        height: auto;
+        transform: scale(0.9);
+    }
+
+    .visual-card-main {
+        margin-top: 0;
+        width: 100%;
+        max-width: 300px;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .pill-2 {
+        display: none;
+        /* Hide floating pill on tablets */
+    }
+
+    /* Section adjustments */
+    .section {
+        padding: 3rem 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Phone-specific fixes */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .hero-tag {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Disable typewriter on mobile - causes overflow */
+    .typewriter {
+        animation: none;
+        max-width: 100%;
+        border-right: none;
+        overflow: visible;
+        white-space: normal;
+    }
+
+    .hero-desc {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    /* Stack buttons vertically */
+    .hero div[style*="display: flex"] {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    /* Hide visual card completely on phones to save space */
+    .hero-visual {
+        display: none;
+    }
+
+    /* Sections */
+    .section {
+        padding: 2.5rem 0;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .section-tag {
+        font-size: 0.75rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .feature-title {
+        font-size: 1.15rem;
+    }
+
+    .comparison-item {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .cta-box {
+        padding: 3rem 1.5rem;
+        border-radius: 20px;
+    }
+
+    .cta-box h2 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .btn-white {
+        padding: 0.85rem 2rem;
+        font-size: 1rem;
+    }
+}
