@@ -40,5 +40,7 @@ exports.chatQuery = async (req, res, next) => {
         next(err);
     }
 
-    
+
 };
+
+

@@ -18,24 +18,24 @@ const patientMedicalSchema = new mongoose.Schema({
     },
 
     diseaseType: {
-    type: String,
-    enum: ['heart', 'diabetes', 'pressure'],
-    required: true
-},
-durationInYears: {
-    type: Number,
-    required: true
-},
+        type: String,
+        enum: ['heart', 'diabetes', 'pressure'],
+        required: true
+    },
+    durationInYears: {
+        type: Number,
+        required: true
+    },
 
-followUpWithDoctor: {
-    type: Boolean,
-    default: false
-},
-symptoms: [
-    {
-    type: String
-    }
-],
+    followUpWithDoctor: {
+        type: Boolean,
+        default: false
+    },
+    symptoms: [
+        {
+            type: String
+        }
+    ],
     weight: {
         type: Number,
         required: [true, 'Weight is required']
@@ -59,3 +59,6 @@ symptoms: [
 });
 
 module.exports = mongoose.model("PatientMedical", patientMedicalSchema);
+
+
+
