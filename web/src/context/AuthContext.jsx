@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     // Configure Axios
-    axios.defaults.baseURL = 'http://localhost:3001/api';
+    axios.defaults.baseURL = 'https://controlled-ruperta-care-ai-0c006943.koyeb.app/api';
     axios.defaults.headers.common['Content-Type'] = 'application/json';
 
     useEffect(() => {
