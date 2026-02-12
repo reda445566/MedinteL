@@ -1,8 +1,8 @@
 const express = require("express");
-const router = express.router
-const getNearestHospital = require("../controllers/map.controlller")
+const router = express.Router();
 
-router.get("/nearest-hospital", getNearestHospital)
+const getNearestHospital = require("../controllers/map.controller");
 
+router.get("/nearest-hospital", getNearestHospital);
 
-export default router;
+module.exports = router;
