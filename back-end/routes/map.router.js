@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const getNearestHospital = require("../controllers/map.controller");
+const getNearestHospital = require("../controllers/map.controlller");
 
 router.get("/nearest-hospital", getNearestHospital);
 
