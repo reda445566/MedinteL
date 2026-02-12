@@ -14,10 +14,14 @@ dotenv.config();
 
 const app = express();
 
+// --- السطر المطلوب لحل مشكلة الـ ValidationError في الـ Rate Limit ---
+app.set('trust proxy', 1); 
+// -----------------------------------------------------------------
+
 // Security Middlewares
 app.use(helmet());
 app.use(cors());
-app.use(express.json()); // Replaces body-parser
+app.use(express.json()); 
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
@@ -30,13 +34,15 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
-// Routes
 app.use('/api/users', userRouter);
 app.use('/api/hospitals', require('./routes/hospital.routes'));
 app.use('/api/patients', require('./routes/patientMedical.routes'));
 app.use('/api/chatbot', require('./routes/chatbot.routes'));
 
-// Global Error Handler
+// --- إضافة راوتر الخريطة لضمان عدم ظهور Route not found ---
+app.use('/api/map', require('./routes/map.router')); 
+// ---------------------------------------------------------
+
 // 404 Handler
 app.use((req, res) => {
     res.status(404).json({ success: false, message: 'Route not found' });
@@ -47,24 +53,20 @@ app.use((err, req, res, next) => {
     let error = { ...err };
     error.message = err.message;
 
-    // Log error for debugging (excluding validation/client errors to keep logs clean)
     if (err.name !== 'ValidationError' && err.code !== 11000 && err.name !== 'CastError') {
         console.error(err.stack);
     }
 
-    // Mongoose Bad ObjectId
     if (err.name === 'CastError') {
         const message = `Resource not found`;
         error = { message, statusCode: 404 };
     }
 
-    // Mongoose Duplicate Key
     if (err.code === 11000) {
         const message = 'Duplicate field value entered';
         error = { message, statusCode: 400 };
     }
 
-    // Mongoose Validation Error
     if (err.name === 'ValidationError') {
         const message = Object.values(err.errors).map(val => val.message).join(', ');
         error = { message, statusCode: 400 };
