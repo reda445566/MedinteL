@@ -14,14 +14,14 @@ dotenv.config();
 
 const app = express();
 
-// --- السطر المطلوب لحل مشكلة الـ ValidationError في الـ Rate Limit ---
-app.set('trust proxy', 1); 
-// -----------------------------------------------------------------
+// --- إضافة سطر الحماية للـ Proxy لحل مشكلة Rate Limit ---
+app.set('trust proxy', 1);
+// ---------------------------------------------------
 
 // Security Middlewares
 app.use(helmet());
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json()); // Replaces body-parser
 app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
@@ -38,10 +38,6 @@ app.use('/api/users', userRouter);
 app.use('/api/hospitals', require('./routes/hospital.routes'));
 app.use('/api/patients', require('./routes/patientMedical.routes'));
 app.use('/api/chatbot', require('./routes/chatbot.routes'));
-
-// --- إضافة راوتر الخريطة لضمان عدم ظهور Route not found ---
-app.use('/api/map', require('./routes/map.router')); 
-// ---------------------------------------------------------
 
 // 404 Handler
 app.use((req, res) => {
